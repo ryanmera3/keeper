@@ -6,7 +6,48 @@ CREATE TABLE IF NOT EXISTS accounts(
   email varchar(255) COMMENT 'User Email',
   picture varchar(255) COMMENT 'User Picture'
 ) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS keeps(
+  id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
+  creatorId VARCHAR(255) COMMENT 'users account Id',
+  name TEXT NOT NULL COMMENT 'Keeps Name',
+  description TEXT NOT NULL COMMENT 'Keeps Description',
+  img TEXT NOT NULL COMMENT 'Keeps Image',
+  views INT COMMENT 'Keeps viewcount',
+  shares INT COMMENT 'Keeps sharecount',
+  keeps INT COMMENT 'How many other users kept the keep',
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS vaults(
+  id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
+  creatorId VARCHAR(255) COMMENT 'users account Id',
+  name TEXT NOT NULL COMMENT 'Vaults Name',
+  description TEXT NOT NULL COMMENT 'Vaults Description',
+  isPrivate BOOLEAN NOT NULL COMMENT 'If vault is private or not',
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+) default charset utf8 COMMENT '';
 SELECT
   *
 FROM
   accounts;
+SELECT
+  *
+FROM
+  keeps;
+SELECT
+  *
+FROM
+  vaults;
+INSERT INTO
+  keeps (id, name, description, img)
+VALUES
+  (1, "Ryan", "Stuff", "string");
+INSERT INTO
+  vaults (id, creatorId, name, description, isPrivate)
+VALUES
+  (
+    1,
+    "61cc69e8955b2a8b17de965c",
+    "Stuff",
+    "Descrip",
+    0
+  );
