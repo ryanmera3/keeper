@@ -20,13 +20,13 @@ namespace keeper.Controllers
     }
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<VaultKeep>> Create([FromBody] Vault newVaultKeep)
+    public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep newVaultKeep)
     {
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         newVaultKeep.CreatorId = userInfo.Id;
-        Vault vaultKeep = _vks.Create(newVaultKeep);
+        VaultKeep vaultKeep = _vks.Create(newVaultKeep);
         vaultKeep.Creator = userInfo;
         return Ok(vaultKeep);
 
@@ -36,5 +36,6 @@ namespace keeper.Controllers
         return BadRequest(e.Message);
       }
     }
+
   }
 }

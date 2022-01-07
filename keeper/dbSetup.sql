@@ -25,6 +25,15 @@ CREATE TABLE IF NOT EXISTS vaults(
   isPrivate BOOLEAN NOT NULL COMMENT 'If vault is private or not',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS vaultKeeps(
+  id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
+  creatorId VARCHAR(255) COMMENT 'users account Id',
+  vaultId INT NOT NULL COMMENT 'Vaults ID',
+  keepId int NOT NULL COMMENT 'Keep ID',
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
+  FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE
+) default charset utf8 COMMENT '';
 -- SELECTS --
 SELECT
   *
@@ -38,6 +47,10 @@ SELECT
   *
 FROM
   vaults;
+SELECT
+  *
+FROM
+  vaultKeeps;
 -- INSERT --
 INSERT INTO
   keeps (id, name, description, img)

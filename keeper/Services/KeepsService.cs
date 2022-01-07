@@ -8,10 +8,12 @@ namespace keeper.Services
   public class KeepsService
   {
     private readonly KeepsRepository _kRepo;
+    private readonly VaultsService _vs;
 
-    public KeepsService(KeepsRepository kRepo)
+    public KeepsService(KeepsRepository kRepo, VaultsService vs)
     {
       _kRepo = kRepo;
+      _vs = vs;
     }
 
     internal Keep Create(Keep newKeep)
