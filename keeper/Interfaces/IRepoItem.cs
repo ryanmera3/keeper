@@ -6,6 +6,9 @@ namespace keeper.Interfaces
   {
     T Id { get; set; }
 
+  }
+  public interface IProfileItem
+  {
     string CreatorId { get; set; }
 
     Profile Creator { get; set; }

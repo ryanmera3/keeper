@@ -2,7 +2,7 @@ using keeper.Interfaces;
 
 namespace keeper.Models
 {
-  public class VaultKeep : IRepoItem<int>
+  public class VaultKeep : IProfileItem
   {
     public int Id { get; set; }
 
