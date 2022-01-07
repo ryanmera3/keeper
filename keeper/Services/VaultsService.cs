@@ -15,17 +15,49 @@ namespace keeper.Services
 
     internal Vault Create(Vault newVault)
     {
+      if (newVault.CreatorId == null)
+      {
+        throw new Exception("You aren't logged in");
+      }
       return _vRepo.Create(newVault);
     }
 
-    public Vault GetById(int id)
+    public Vault GetById(int id, string userId)
     {
       Vault foundVault = _vRepo.GetById(id);
       if (foundVault == null)
       {
         throw new Exception("Invalid vault Id");
       }
+      if (foundVault.IsPrivate == true && foundVault.CreatorId != userId)
+      {
+        throw new Exception("You cannot view this Vault");
+      }
       return foundVault;
+    }
+
+    internal Vault Edit(Vault update)
+    {
+      Vault original = GetById(update.Id, update.CreatorId);
+      if (update.CreatorId != original.CreatorId)
+      {
+        throw new Exception("You cannot edit this");
+      }
+      original.Name = update.Name != null && update.Name.Trim().Length > 0 ? update.Name : original.Name;
+      original.Description = update.Description != null && update.Description.Trim().Length > 0 ? update.Description : original.Description;
+      original.IsPrivate = update.IsPrivate != original.IsPrivate ? update.IsPrivate : original.IsPrivate;
+      _vRepo.Edit(original);
+      return original;
+    }
+
+    internal void Delete(int id, string userId)
+    {
+      Vault toDelete = GetById(id, userId);
+      if (toDelete.CreatorId != userId)
+      {
+        throw new Exception("You cannot delete this");
+      }
+      _vRepo.Delete(id);
     }
   }
 }

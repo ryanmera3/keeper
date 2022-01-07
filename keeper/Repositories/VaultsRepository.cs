@@ -1,4 +1,5 @@
 using System.Data;
+using System.Linq;
 using Dapper;
 using keeper.Models;
 
@@ -26,7 +27,7 @@ namespace keeper.Repositories
       return newVault;
     }
 
-    internal Vault GetById(int id)
+    public Vault GetById(int id)
     {
       string sql = @"
       SELECT 
@@ -36,7 +37,30 @@ namespace keeper.Repositories
         JOIN accounts a ON vs.creatorId = a.id
         WHERE vs.id = @id;
       ";
-      return _db.QueryFirstOrDefault<Vault>(sql, new { id });
+      return _db.Query<Vault, Profile, Vault>(sql, (vault, prof) =>
+      {
+        vault.Creator = prof;
+        return vault;
+      }, new { id }).FirstOrDefault();
+    }
+
+    internal void Edit(Vault original)
+    {
+      string sql = @"
+      UPDATE vaults
+      SET
+        name = @Name,
+        description = @Description,
+        isPrivate = @IsPrivate
+    Where id = @Id;
+      ";
+      _db.Execute(sql, original);
+    }
+
+    internal void Delete(int id)
+    {
+      string sql = @"DELETE FROM vaults WHERE id = @id LIMIT 1";
+      _db.Execute(sql, new { id });
     }
   }
 }

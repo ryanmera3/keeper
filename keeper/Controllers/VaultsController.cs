@@ -41,17 +41,49 @@ namespace keeper.Controllers
     }
     [HttpGet("{id}")]
 
-    public ActionResult<Vault> GetById(int id)
+    public async Task<ActionResult<Vault>> GetById(int id)
     {
       try
       {
-        return Ok(_vs.GetById(id));
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_vs.GetById(id, userInfo?.Id));
       }
       catch (Exception e)
       {
         return BadRequest(e.Message);
       }
     }
-
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Vault>> Edit([FromBody] Vault update, int id)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        update.CreatorId = userInfo.Id;
+        update.Id = id;
+        Vault updated = _vs.Edit(update);
+        return Ok(updated);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<ActionResult<String>> Delete(int id)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        _vs.Delete(id, userInfo.Id);
+        return Ok("Deleted");
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 }
