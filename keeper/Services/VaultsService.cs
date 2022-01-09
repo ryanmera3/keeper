@@ -35,6 +35,15 @@ namespace keeper.Services
       }
       return foundVault;
     }
+    public Vault GetByVaultId(int id)
+    {
+      Vault foundVault = _vRepo.GetById(id);
+      if (foundVault == null)
+      {
+        throw new Exception("Unable to find that vault");
+      }
+      return foundVault;
+    }
 
     internal Vault Edit(Vault update)
     {

@@ -59,5 +59,15 @@ namespace keeper.Services
       }
       _kRepo.Delete(id);
     }
+
+    internal List<Keep> GetKeepsByVaultId(int id, string userId)
+    {
+      Vault foundVault = _vs.GetByVaultId(id);
+      if (foundVault.IsPrivate == true && foundVault.CreatorId != userId)
+      {
+        throw new Exception("You cannot view this vault");
+      }
+      return _kRepo.GetKeepsByVaultId(id);
+    }
   }
 }

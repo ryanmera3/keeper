@@ -1,3 +1,4 @@
+using System;
 using keeper.Models;
 using keeper.Repositories;
 
@@ -15,6 +16,25 @@ namespace keeper.Services
     public VaultKeep Create(VaultKeep newVaultKeep)
     {
       return _vkRepo.Create(newVaultKeep);
+    }
+    public VaultKeep GetById(int id)
+    {
+      VaultKeep foundVaultKeep = _vkRepo.GetById(id);
+      if (foundVaultKeep == null)
+      {
+        throw new Exception("Unable to find vaultKeep with that Id");
+      }
+      return foundVaultKeep;
+    }
+
+    internal void Delete(int id, string userId)
+    {
+      VaultKeep verifyDelete = GetById(id);
+      if (verifyDelete.CreatorId != userId)
+      {
+        throw new Exception("You cannot delete this");
+      }
+      _vkRepo.Delete(id);
     }
   }
 }

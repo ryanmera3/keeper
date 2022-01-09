@@ -51,6 +51,22 @@ SELECT
   *
 FROM
   vaultKeeps;
+SELECT
+  k.*,
+  vk.id AS vaultKeepId,
+  v.*
+FROM
+  vaultKeeps vk
+  JOIN keeps k ON k.id = vk.keepId
+  JOIN vaults v ON v.id = vk.vaultId
+WHERE
+  vk.vaultId = 65;
+SELECT
+  vk.*
+FROM
+  vaultKeeps vk
+WHERE
+  vk.id = 65;
 -- INSERT --
 INSERT INTO
   keeps (id, name, description, img)
@@ -71,3 +87,5 @@ DELETE FROM
   vaults;
 DELETE FROM
   keeps;
+DELETE FROM
+  vaultKeeps;
