@@ -80,25 +80,42 @@ namespace keeper.Repositories
       _db.Execute(sql, new { id });
     }
 
-    internal List<Keep> GetKeepsByVaultId(int id)
+    internal List<Keep> GetByCreatorId(string id)
     {
       string sql = @"
       SELECT
         k.*,
-        vk.keepId AS vaultKeepId,
-        vk.id AS vkId,
-        vk.vaultId AS vaultVaultId,
-        v.*
-      FROM vaultKeeps vk
-      JOIN keeps k ON k.id = vk.keepId
-      JOIN vaults v ON v.id = vk.vaultId
-      WHERE vk.vaultId = @id;
+        a.*
+      FROM keeps k
+      JOIN accounts a ON k.creatorId = a.id
+      WHERE k.creatorId = @id;
       ";
       return _db.Query<Keep, Profile, Keep>(sql, (keep, prof) =>
       {
         keep.Creator = prof;
         return keep;
-      }, new { id }).ToList();
+      }, new{id}).ToList();
+    }
+
+    internal List<VaultKeepViewModel> GetKeepsByVaultId(int id)
+    {
+      string sql = @"
+      SELECT
+        vk.*,
+        vk.id AS vaultKeepId,
+        a.*,
+        k.*
+      FROM vaultKeeps vk 
+      JOIN accounts a ON a.id = vk.creatorId
+      JOIN keeps k ON k.id = vk.keepId
+      WHERE vk.vaultId = @id;
+      ";
+      return _db.Query<VaultKeepViewModel,Profile, Keep,  VaultKeepViewModel>(sql, (vaultKeep,profile, keep) =>
+      {
+        vaultKeep.Creator = profile;
+        vaultKeep.Keep = keep;
+        return vaultKeep;
+      }, new { id }, splitOn:"id").ToList();
     }
   }
 }

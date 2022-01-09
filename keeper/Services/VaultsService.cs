@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using keeper.Models;
 using keeper.Repositories;
 
@@ -43,6 +44,11 @@ namespace keeper.Services
         throw new Exception("Unable to find that vault");
       }
       return foundVault;
+    }
+
+    internal List<Vault> GetByCreatorId(string id)
+    {
+      return _vRepo.GetByCreatorId(id);
     }
 
     internal Vault Edit(Vault update)

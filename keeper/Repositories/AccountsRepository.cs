@@ -4,7 +4,7 @@ using Dapper;
 
 namespace keeper.Repositories
 {
-    public class AccountsRepository
+  public class AccountsRepository
     {
         private readonly IDbConnection _db;
 
@@ -36,7 +36,7 @@ namespace keeper.Repositories
             return newAccount;
         }
 
-        internal Account Edit(Account update)
+    internal Account Edit(Account update)
         {
             string sql = @"
             UPDATE accounts

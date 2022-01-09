@@ -57,13 +57,12 @@ namespace keeper.Controllers
       }
     }
     [HttpGet("{id}/keeps")]
-    public async Task<ActionResult<List<Keep>>> GetKeepsByVaultId(int id)
+    public async Task<ActionResult<List<VaultKeepViewModel>>> GetKeepsByVaultId(int id)
     {
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        List<Keep> keeps = _ks.GetKeepsByVaultId(id, userInfo?.Id);
-        return Ok(keeps);
+        return Ok(_ks.GetKeepsByVaultId(id, userInfo?.Id));
       }
       catch (Exception e)
       {

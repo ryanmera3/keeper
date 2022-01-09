@@ -60,7 +60,12 @@ namespace keeper.Services
       _kRepo.Delete(id);
     }
 
-    internal List<Keep> GetKeepsByVaultId(int id, string userId)
+    internal List<Keep> GetByCreatorId(string id)
+    {
+      return _kRepo.GetByCreatorId(id);
+    }
+
+    internal List<VaultKeepViewModel> GetKeepsByVaultId(int id, string userId)
     {
       Vault foundVault = _vs.GetByVaultId(id);
       if (foundVault.IsPrivate == true && foundVault.CreatorId != userId)

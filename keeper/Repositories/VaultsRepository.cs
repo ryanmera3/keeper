@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -55,6 +56,23 @@ namespace keeper.Repositories
     Where id = @Id;
       ";
       _db.Execute(sql, original);
+    }
+
+    internal List<Vault> GetByCreatorId(string id)
+    {
+      string sql = @"
+      SELECT
+        v.*,
+        a.*
+      FROM vaults v
+      JOIN accounts a ON v.creatorId = a.id
+      WHERE v.creatorId = @id;
+      ";
+      return _db.Query<Vault, Profile, Vault>(sql, (vault, prof) =>
+      {
+        vault.Creator = prof;
+        return vault;
+      }, new{id}).ToList();
     }
 
     internal void Delete(int id)

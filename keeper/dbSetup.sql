@@ -67,6 +67,18 @@ FROM
   vaultKeeps vk
 WHERE
   vk.id = 65;
+  SELECT
+        vk.*,
+        v.*,
+        k.*,
+        a.*
+      FROM vaultKeeps vk 
+      JOIN vaults v ON v.id = vk.vaultId
+      JOIN keeps k ON k.id = vk.keepId
+      JOIN accounts a ON a.id = vk.creatorId
+      WHERE vk.vaultId = 6;
+
+SELECT * FROM accounts WHERE id = "61cc69e8955b2a8b17de965c";
 -- INSERT --
 INSERT INTO
   keeps (id, name, description, img)
@@ -82,6 +94,11 @@ VALUES
     "Descrip",
     0
   );
+
+INSERT INTO vaultKeeps
+(id, creatorId, vaultId, keepId)
+VALUES
+(5, "61cc69e8955b2a8b17de965c", 361, 195);
 -- DELETE --
 DELETE FROM
   vaults;
