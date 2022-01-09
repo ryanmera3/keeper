@@ -86,6 +86,8 @@ SELECT
       FROM vaults v
       JOIN accounts a ON a.id = v.creatorId
       WHERE a.id = "61cc69e8955b2a8b17de965c";
+
+SELECT id, name, picture FROM accounts WHERE id = "61cc69e8955b2a8b17de965c";
 -- INSERT --
 INSERT INTO
   keeps (id, name, description, img)
@@ -105,7 +107,7 @@ VALUES
 INSERT INTO vaultKeeps
 (id, creatorId, vaultId, keepId)
 VALUES
-(5, "61cc69e8955b2a8b17de965c", 361, 195);
+(8, "61cc69e8955b2a8b17de965c", 5, 9);
 -- DELETE --
 DELETE FROM
   vaults;

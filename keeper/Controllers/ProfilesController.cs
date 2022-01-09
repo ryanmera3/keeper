@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodeWorks.Auth0Provider;
 using keeper.Models;
 using keeper.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +16,14 @@ namespace keeper.Controllers
     private readonly VaultsService _vs;
 
     private readonly KeepsService _ks;
+    private readonly ProfilesService _ps;
 
-    public ProfilesController(AccountService accountService, VaultsService vs, KeepsService ks)
+    public ProfilesController(AccountService accountService, VaultsService vs, KeepsService ks, ProfilesService ps)
     {
       _accountService = accountService;
       _vs = vs;
       _ks = ks;
+      _ps = ps;
     }
 
 
@@ -58,6 +62,19 @@ namespace keeper.Controllers
       {
            List<Keep> keeps = _ks.GetByCreatorId(id);
            return Ok(keeps);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Profile>> GetProfile(string id)
+    {
+      try
+      {
+           Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+           return Ok(_ps.GetProfile(userInfo?.Id));
       }
       catch (Exception e)
       {
