@@ -79,6 +79,13 @@ WHERE
       WHERE vk.vaultId = 6;
 
 SELECT * FROM accounts WHERE id = "61cc69e8955b2a8b17de965c";
+
+SELECT
+        v.*,
+        a.*
+      FROM vaults v
+      JOIN accounts a ON a.id = v.creatorId
+      WHERE a.id = "61cc69e8955b2a8b17de965c";
 -- INSERT --
 INSERT INTO
   keeps (id, name, description, img)

@@ -15,6 +15,11 @@ namespace keeper.Services
 
     public VaultKeep Create(VaultKeep newVaultKeep)
     {
+      if(newVaultKeep.CreatorId == null || newVaultKeep.Creator == null)
+      {
+        throw new Exception("You need to log in");
+      }
+      
       return _vkRepo.Create(newVaultKeep);
     }
     public VaultKeep GetById(int id)

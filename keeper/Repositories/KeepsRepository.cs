@@ -115,7 +115,7 @@ namespace keeper.Repositories
         vaultKeep.Creator = profile;
         vaultKeep.Keep = keep;
         return vaultKeep;
-      }, new { id }, splitOn:"id").ToList();
+      }, new { id }).ToList();
     }
   }
 }

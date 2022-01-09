@@ -26,8 +26,8 @@ namespace keeper.Controllers
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         newVaultKeep.CreatorId = userInfo.Id;
+        newVaultKeep.Creator = userInfo;
         VaultKeep vaultKeep = _vks.Create(newVaultKeep);
-        vaultKeep.Creator = userInfo;
         return Ok(vaultKeep);
 
       }

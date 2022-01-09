@@ -65,6 +65,11 @@ namespace keeper.Services
       return original;
     }
 
+    public List<Vault> GetMyVaults(string id)
+    {
+      return _vRepo.GetMyVaults(id);
+    }
+
     internal void Delete(int id, string userId)
     {
       Vault toDelete = GetById(id, userId);
