@@ -43,7 +43,7 @@ namespace keeper.Controllers
       }
     }
     [HttpGet("{id}")]
-
+    
     public async Task<ActionResult<Vault>> GetById(int id)
     {
       try

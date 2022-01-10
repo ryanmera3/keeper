@@ -43,6 +43,7 @@ namespace keeper.Services
       {
         throw new Exception("Unable to find that vault");
       }
+      
       return foundVault;
     }
 

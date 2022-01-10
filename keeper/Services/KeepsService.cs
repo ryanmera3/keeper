@@ -36,10 +36,10 @@ namespace keeper.Services
       return foundKeep;
     }
 
-    internal Keep Edit(Keep update)
+    internal Keep Edit(Keep update, string userId)
     {
       Keep original = GetById(update.Id);
-      if (original.CreatorId != update.CreatorId)
+      if (original.CreatorId != userId || userId == null)
       {
         throw new Exception("You cannot edit this");
       }

@@ -71,9 +71,8 @@ namespace keeper.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        update.CreatorId = userInfo.Id;
         update.Id = id;
-        Keep updated = _ks.Edit(update);
+        Keep updated = _ks.Edit(update, userInfo.Id);
         return Ok(updated);
       }
       catch (Exception e)
