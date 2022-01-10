@@ -48,7 +48,9 @@ namespace keeper.Services
 
     internal List<Vault> GetByCreatorId(string id)
     {
-      return _vRepo.GetByCreatorId(id);
+      List<Vault> foundVaults =  _vRepo.GetByCreatorId(id);
+      foundVaults = foundVaults.FindAll(v => v.IsPrivate == false);
+      return foundVaults;
     }
 
     internal Vault Edit(Vault update)

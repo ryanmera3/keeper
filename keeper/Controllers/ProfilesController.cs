@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using CodeWorks.Auth0Provider;
 using keeper.Models;
 using keeper.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -69,12 +67,11 @@ namespace keeper.Controllers
       }
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<Profile>> GetProfile(string id)
+    public ActionResult<Profile> GetProfile(string id)
     {
       try
       {
-           Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-           return Ok(_ps.GetProfile(userInfo?.Id));
+           return Ok(_ps.GetProfile(id));
       }
       catch (Exception e)
       {
