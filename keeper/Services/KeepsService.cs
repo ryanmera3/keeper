@@ -41,11 +41,15 @@ namespace keeper.Services
       Keep original = GetById(update.Id);
       if (original.CreatorId != userId || userId == null)
       {
+      original.Views = update.Views > original.Views ? update.Views : original.Views;
+      original.Keeps = update.Keeps > original.Views ? update.Keeps : original.Keeps;
         throw new Exception("You cannot edit this");
       }
+      
       original.Description = update.Description != null && update.Description.Trim().Length > 0 ? update.Description : original.Description;
       original.Name = update.Name != null && update.Name.Trim().Length > 0 ? update.Name : original.Name;
       original.Img = update.Img != null && update.Img.Trim().Length > 0 ? update.Img : original.Img;
+      
       _kRepo.Edit(original);
       return original;
     }

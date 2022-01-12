@@ -15,7 +15,7 @@ namespace keeper.Services
 
     public VaultKeep Create(VaultKeep newVaultKeep)
     {
-      if(newVaultKeep.CreatorId == null || newVaultKeep.Creator == null)
+      if(newVaultKeep.CreatorId == null || newVaultKeep == null)
       {
         throw new Exception("You need to log in");
       }

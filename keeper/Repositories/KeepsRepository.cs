@@ -21,7 +21,7 @@ namespace keeper.Repositories
       INSERT INTO keeps
       (creatorId, name, description, img, views, shares, keeps)
       VALUES
-      (@CreatorId, @Name, @Description, @Img, @Views, 0, @Keeps);
+      (@CreatorId, @Name, @Description, @Img, 0, 0, 0);
       SELECT LAST_INSERT_ID();
       ";
       int id = _db.ExecuteScalar<int>(sql, newKeep);
@@ -68,7 +68,9 @@ namespace keeper.Repositories
       SET
         description = @Description,
         name = @Name,
-        img = @Img
+        img = @Img,
+        views = @Views,
+        keeps = @Keeps
       WHERE id = @Id;
       ";
       _db.Execute(sql, original);
@@ -112,8 +114,9 @@ namespace keeper.Repositories
       ";
       return _db.Query<VaultKeepViewModel,Profile, Keep,  VaultKeepViewModel>(sql, (vaultKeep,profile, keep) =>
       {
-        vaultKeep.Creator = profile;
+        keep.Creator = profile;
         vaultKeep.Keep = keep;
+        vaultKeep.Creator = profile;
         return vaultKeep;
       }, new { id }).ToList();
     }
