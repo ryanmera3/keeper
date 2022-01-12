@@ -103,21 +103,18 @@ namespace keeper.Repositories
     {
       string sql = @"
       SELECT
-        vk.*,
+        k.*,
         vk.id AS vaultKeepId,
-        a.*,
-        k.*
+        a.*
       FROM vaultKeeps vk 
-      JOIN accounts a ON a.id = vk.creatorId
       JOIN keeps k ON k.id = vk.keepId
+      JOIN accounts a ON a.id = k.creatorId
       WHERE vk.vaultId = @id;
       ";
-      return _db.Query<VaultKeepViewModel,Profile, Keep,  VaultKeepViewModel>(sql, (vaultKeep,profile, keep) =>
+      return _db.Query<VaultKeepViewModel, Profile, VaultKeepViewModel>(sql, (keep, profile) =>
       {
         keep.Creator = profile;
-        vaultKeep.Keep = keep;
-        vaultKeep.Creator = profile;
-        return vaultKeep;
+        return keep;
       }, new { id }).ToList();
     }
   }

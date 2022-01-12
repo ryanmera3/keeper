@@ -7,18 +7,26 @@ namespace keeper.Services
   public class VaultKeepsService
   {
     private readonly VaultKeepsRepository _vkRepo;
+    private readonly VaultsService _vs;
 
-    public VaultKeepsService(VaultKeepsRepository vkRepo)
+    public VaultKeepsService(VaultKeepsRepository vkRepo, VaultsService vs)
     {
       _vkRepo = vkRepo;
+      _vs = vs;
     }
 
     public VaultKeep Create(VaultKeep newVaultKeep)
     {
-      if(newVaultKeep.CreatorId == null || newVaultKeep == null)
+      Vault vault = _vs.GetById(newVaultKeep.VaultId, newVaultKeep.CreatorId);
+      if(newVaultKeep.CreatorId == null || newVaultKeep == null )
       {
         throw new Exception("You need to log in");
       }
+      if(vault.CreatorId != newVaultKeep.CreatorId)
+      {
+        throw new Exception("You cannot create a keep in another's vault");
+      }
+
       
       return _vkRepo.Create(newVaultKeep);
     }
