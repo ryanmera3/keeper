@@ -5,6 +5,7 @@
   <main>
     <router-view />
   </main>
+  <KeepModal/>
 </template>
 
 <script>

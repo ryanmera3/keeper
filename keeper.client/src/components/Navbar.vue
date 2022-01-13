@@ -16,6 +16,7 @@
     >
       <span class="navbar-toggler-icon" />
     </button>
+    <!-- Need to add search -->
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarText">
       
       <span class="navbar-text">

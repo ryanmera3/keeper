@@ -1,7 +1,7 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center container-fluid">
-    <div class="row">
-      <Vaults v-for="v in myVaults" :key="v.id" :vault="v"/>
+  <div class=" flex-grow-1 d-flex flex-column align-items-center justify-content-center container-fluid">
+    <div class="row ">
+      <Keeps v-for="k in keeps" :key="k.id" :keep="k" class="masonry-with-flex"/>
     </div>
   </div>
 </template>
@@ -9,19 +9,23 @@
 <script>
 import { computed, onMounted } from "@vue/runtime-core"
 import { useRoute, useRouter } from "vue-router"
-import {vaultService} from "../services/VaultService"
+import {keepService} from "../services/KeepService"
 import { AppState } from "../AppState"
+import { accountService } from "../services/AccountService"
 export default {
   name: 'Home',
   setup(){
     const route = useRoute()
     const router = useRouter()
-    onMounted(async () => {
-      await vaultService.getMyVaults()
+    onMounted(async() => {
+      await keepService.getAllKeeps()
     })
+
     return{
       router,
       route,
+      account: computed(()=>AppState.account),
+      keeps: computed(()=> AppState.keeps),
       activeVault: computed(()=> AppState.activeVault),
       vaults: computed(()=> AppState.vaults),
       myVaults: computed(()=> AppState.myVaults)
@@ -48,4 +52,42 @@ export default {
     }
   }
 }
+
+body {
+  margin: 0;
+  padding: 1rem;
+}
+
+.masonry-with-flex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 1000px;
+  div {
+    width: 150px;
+    background: #EC985A;
+    color: white;
+    margin: 0 1rem 1rem 0;
+    text-align: center;
+    font-family: system-ui;
+    font-weight: 900;
+    font-size: 2rem;
+  } 
+  @for $i from 1 through 36 { 
+    div:nth-child(#{$i}) {
+      $h: (random(400) + 100) + px;
+      height: $h;
+      line-height: $h;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
 </style>
