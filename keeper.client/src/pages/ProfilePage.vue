@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="col-md-12 my-2 ms-2">
-        Vaults <button class="btn btn-outline-primary mdi mdi-plus" title="create vault"></button>
+        Vaults <button class="btn btn-outline-primary mdi mdi-plus" title="create vault" data-bs-toggle="modal" data-bs-target="#createVault-modal"></button>
       </div>
       <div class="col-md-12 d-flex" >
         <div class="row">
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="col-md-12 my-2 ms-2">
-        Keeps <button class="btn btn-outline-primary mdi mdi-plus" title="create keep"></button>
+        Keeps <button class="btn btn-outline-primary mdi mdi-plus" title="create keep" data-bs-toggle="modal" data-bs-target="#createKeep-modal"></button>
       </div>
       <div class="col-md-12 d-flex">
         <div class="row">

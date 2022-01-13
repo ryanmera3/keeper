@@ -20,7 +20,7 @@ class KeepService {
   async createKeep(keep){
     const res = await api.post(`/api/keeps`, keep)
     logger.log('Create Keep', res.data)
-    AppState.keeps.push(res.data)
+    AppState.profileKeeps.push(res.data)
   }
 
   async editKeep(keep){
@@ -30,9 +30,10 @@ class KeepService {
   }
 
   async deleteKeep(keepId){
-    const res = await api.delete('api/albums/' + keepId)
+    const res = await api.delete('api/keeps/' + keepId)
     logger.log("Deleted keep")
     AppState.keeps = AppState.keeps.filter(k => k.id !== keepId)
+    AppState.profileKeeps = AppState.profileKeeps.filter(k => k.id !== keepId)
   }
 
 }

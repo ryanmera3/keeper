@@ -6,6 +6,8 @@
     <router-view />
   </main>
   <KeepModal/>
+  <CreateKeepModal/>
+  <CreateVaultModal/>
 </template>
 
 <script>

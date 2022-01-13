@@ -1,15 +1,18 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12 mx-4 mt-5">
-        <h1>
+      <div class="col-md-12 mt-5">
+        <h1 class="d-flex justify-content-between">
           {{vault.name}}
+          <div >
+            <button class="btn btn-outline-danger" v-if="vault.creatorId == account.id" @click="deleteVault(vault.id)">Delete Vault</button>
+          </div>
           </h1>
           <h5>
            Keeps: {{keeps.length}}
           </h5>
       </div>
-      <div class="col-md-12 d-flex mx-3 mt-2">
+      <div class="col-md-12 d-flex  mt-2">
         <div class="row">
           <div class="col-md-2" style="width:18rem" v-for=" k in keeps" :key="k.id">
             <div class="card m-2 bg-dark sizing action" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive(k)">
@@ -46,6 +49,21 @@ export default {
     return {
       route,
       router,
+      async deleteVault(id){
+        try {
+          if(await Pop.confirm()){
+
+          await vaultService.deleteVault(id)
+          Pop.toast('Vault deleted', 'success')
+          router.push({
+          name: "Home"
+        })
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error, 'error')
+        }
+      },
       async setActive(keep) {
         try {
           AppState.activeKeep = keep
@@ -57,7 +75,8 @@ export default {
         }
       },
       vault: computed(() => AppState.vault),
-      keeps: computed(()=> AppState.keeps)
+      keeps: computed(()=> AppState.keeps),
+      account: computed(()=> AppState.account)
     }
   }
 }

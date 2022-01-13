@@ -45,7 +45,7 @@
           <button class="btn btn-outline-success">
             Add to Vault
           </button>
-          <button class="mdi mdi-delete btn btn-outline-danger mx-2" title="Delete keep" v-if="activeKeep.creator?.id == account.id"></button>
+          <button class="mdi mdi-delete btn btn-outline-danger mx-2" title="Delete keep" v-if="activeKeep.creator?.id == account.id" @click="deleteKeep(activeKeep.id)"></button>
           <img class="rounded-pill sizing mx-2" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name">
           <p class="m-0">{{activeKeep.creator?.name}}</p>
 
@@ -64,9 +64,25 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { AppState } from '../AppState'
+import { logger } from "../utils/Logger"
+import { keepService } from "../services/KeepService"
+import { Modal } from "bootstrap"
+import Pop from "../utils/Pop"
 export default {
   setup() {
     return {
+      async deleteKeep(id){
+        try {
+          if(await Pop.confirm()){
+
+          await keepService.deleteKeep(id)
+          Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+          Pop.toast('Keep deleted', 'success')
+          }
+        } catch (error) {
+          logger.log(error)
+        }
+      },
       activeKeep: computed(()=> AppState.activeKeep),
       account: computed(()=> AppState.account)
     }
