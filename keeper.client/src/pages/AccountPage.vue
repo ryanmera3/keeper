@@ -2,28 +2,16 @@
   <div class="container-fluid">
     <div class="row h-50">
       <div class="col-md-12 my-2">
-        Vaults <button class="btn btn-outline-primary mdi mdi-plus" title="create vault"></button>
+        <button class="btn btn-outline-primary mdi mdi-plus" title="create vault" data-bs-toggle="modal" data-bs-target="#createVault-modal"></button> Vaults: {{myVaults.length}}  
       </div>
       <div class="col-md-12 d-flex" >
+        
         <div class="row">
           <div class="col-md-2" style="width:18rem"  v-for="v in myVaults" :key="v.id"> 
-            <div class="card m-2 sizing bg-dark" @click="routerLink(v.id)">
-              <div class="card-body d-flex align-items-end">
+            <div class="card m-2 sizing bg-dark action" title="Click to open vault" @click="routerLink(v.id)">
+              <div class="card-body d-flex align-items-end justify-content-between">
                 {{v.name}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 my-2">
-        Keeps <button class="btn btn-outline-primary mdi mdi-plus" title="create keep" data-bs-toggle="modal" data-bs-target="#createKeep-modal"></button>
-      </div>
-           <div class="col-md-12 d-flex">
-        <div class="row">
-          <div class="col-md-2" style="width:18rem" v-for=" k in myKeeps" :key="k.id">
-            <div class="card m-2 bg-dark sizing action" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive(k)">
-              <div class="card-body d-flex align-items-end" v-bind:style="{ backgroundImage: `url(${k.img})` }">
-                {{k.name}}
+              <i class="mdi mdi-star text-success" title="This is a private vault" v-if="v.isPrivate"></i>
               </div>
             </div>
           </div>
@@ -56,7 +44,7 @@ export default {
       },
       account: computed(() => AppState.account),
       myVaults: computed(()=> AppState.myVaults),
-      myKeeps: computed(()=> AppState.myKeeps)
+
     }
   }
 }

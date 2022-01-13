@@ -19,7 +19,7 @@
 
           </div>
             <div class="col-md-1 my-2">
-            <label for="title" class="form-label">Prviate?</label>
+            <label for="title" class="form-label">Private?</label>
             <input type="checkbox" class="form-check-input" id="isPrivate" placeholder="isPrivate" v-model="vaultData.editable.isPrivate" :checked="vaultData.editable.isPrivate" aria-describedby="isPrivate">
           </div>
           <div class="col-md-12 d-flex justify-content-end">

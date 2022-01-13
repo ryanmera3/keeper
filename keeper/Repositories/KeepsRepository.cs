@@ -42,6 +42,7 @@ namespace keeper.Repositories
       return _db.Query<Keep, Profile, Keep>(sql, (keep, prof) =>
      {
        keep.Creator = prof;
+       keep.Views ++;
        return keep;
      }, new { id }).FirstOrDefault();
     }
@@ -78,7 +79,7 @@ namespace keeper.Repositories
 
     internal void Delete(int id)
     {
-      string sql = @"DELETE FROM keeps WHERE id = @id LIMIT 1";
+      string sql = @"DELETE FROM keeps WHERE id = @id LIMIT 1;";
       _db.Execute(sql, new { id });
     }
 

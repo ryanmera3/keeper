@@ -33,7 +33,7 @@
       <div class="col-md-12 d-flex" >
         <div class="row">
           <div class="col-md-2" style="width:18rem" v-for="v in profileVaults" :key="v.id"> 
-            <div class="card m-2 bg-dark sizing action" style="" @click="routerLink(v.id)">
+            <div class="card m-2 bg-dark sizing action" title="Click to open vault" style="" @click="routerLink(v.id)">
               <div class="card-body d-flex align-items-end ">
                 {{v.name}}
               </div>
@@ -47,7 +47,7 @@
       <div class="col-md-12 d-flex">
         <div class="row">
           <div class="col-md-2" style="width:18rem" v-for=" k in profileKeeps" :key="k.id">
-            <div class="card m-2 bg-dark sizing action" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive(k)">
+            <div class="card m-2 bg-dark sizing action" title="Click to open keep" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive(k)">
               <div class="card-body d-flex align-items-end" v-bind:style="{ backgroundImage: `url(${k.img})` }">
                 {{k.name}}
               </div>
