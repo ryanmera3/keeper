@@ -1,28 +1,117 @@
 <template>
-
+  <div class="container-fluid">
+    <div class="row h-50">
+      <div class="col-md-12 my-4" style="height:15rem">
+        <div class="row ms-2">
+          <div class="col-md-1">
+            <img :src="user.picture" alt="">
+          </div>
+          <div class="col-md-11 d-flex flex-column">
+            <div class="row ">
+              <div class="col-md-12">
+                {{user.name}}
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-md-12">
+                <p>
+                  Vaults: {{profileVaults.length}} 
+                </p>
+              </div>
+              <div class="col-md-12">
+                <p>
+                  Keeps: {{profileKeeps.length}} 
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 my-2 ms-2">
+        Vaults <button class="btn btn-outline-primary mdi mdi-plus" title="create vault"></button>
+      </div>
+      <div class="col-md-12 d-flex" >
+        <div class="row">
+          <div class="col-md-2" style="width:18rem" v-for="v in profileVaults" :key="v.id"> 
+            <div class="card m-2 bg-dark sizing action" style="" @click="routerLink(v.id)">
+              <div class="card-body d-flex align-items-end ">
+                {{v.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 my-2 ms-2">
+        Keeps <button class="btn btn-outline-primary mdi mdi-plus" title="create keep"></button>
+      </div>
+      <div class="col-md-12 d-flex">
+        <div class="row">
+          <div class="col-md-2" style="width:18rem" v-for=" k in profileKeeps" :key="k.id">
+            <div class="card m-2 bg-dark sizing action" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive(k)">
+              <div class="card-body d-flex align-items-end" v-bind:style="{ backgroundImage: `url(${k.img})` }">
+                {{k.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { computed, onMounted } from "@vue/runtime-core"
 import { useRoute, useRouter } from "vue-router"
+import { AppState } from "../AppState"
+import {profileService} from "../services/ProfileService"
+import { keepService } from "../services/KeepService"
+import { logger } from "../utils/Logger"
+import { Modal } from "bootstrap"
+import Pop from "../utils/Pop"
 export default {
   name: 'ProfilePage',
   setup(){
     const route = useRoute()
     const router = useRouter()
     onMounted(async() => {
-
+      await profileService.getUserProfile(route.params.id)
+      await profileService.getVaultsByProfileId(route.params.id),
+      await profileService.getKeepsByProfileId(route.params.id)
     })
 
     return{
+      routerLink(id) {
+        router.push({
+          name: "Vault",
+          params: { id: id }
+        })
+      },
+      async setActive(keep) {
+        try {
+          AppState.activeKeep = keep
+          await keepService.getKeepById(keep.id)
+        } catch (error) {
+          logger.error(error)
+          Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+          Pop.toast(error, 'error')
+        }
+      },
       router,
       route,
-      account: computed(()=>AppState.account),
       keeps: computed(()=> AppState.keeps),
       activeVault: computed(()=> AppState.activeVault),
       vaults: computed(()=> AppState.vaults),
-      myVaults: computed(()=> AppState.myVaults)
+      profileVaults: computed(() => AppState.profileVaults),
+      profileKeeps: computed(()=> AppState.profileKeeps),
+      user: computed(()=> AppState.user)
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.sizing {
+  height: 200px;
+  
+}
+</style>

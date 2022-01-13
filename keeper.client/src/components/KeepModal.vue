@@ -1,5 +1,5 @@
 <template>
-  <Modal id="keep-modal" size="modal-xl">
+  <Modal id="keep-modal" size="modal-lg">
     <template #modal-body>
       <div class="container-fluid">
         <div class="text-end">
@@ -20,22 +20,38 @@
             />
           </div>
           <div
-            class="col-6 text-center d-flex flex-column justify-content-center"
+            class="col-6 text-center d-flex flex-column justify-content-between"
           >
+          <div class="row flex-column">
+              <div class="col-md-12">
           <p>
-            {{activeKeep.views}} | {{activeKeep.keeps}}
+            <i class="mdi mdi-eye" title="total views">
+              {{activeKeep.views}}
+              </i> 
+              | 
+              <i class="mdi mdi-alpha-k-box" title="total keeps">
+                {{activeKeep.keeps}}
+                </i>
           </p>
           <h3>
             {{activeKeep.name}}
           </h3>
-          <p>{{activeKeep.description}}</p>
-          <div class="d-flex justify-content-between">
+          <p class="my-2">{{activeKeep.description}}</p>
+          </div>
+          </div>
+            <div class="row">
 
+              <div class="col-md-12 d-flex align-items-center">
           <button class="btn btn-outline-success">
             Add to Vault
           </button>
-          <button class="mdi mdi-delete btn btn-outline-danger" title="Delete keep" v-if="activeKeep.creator?.id == account.id"></button>
-          <img class="rounded-pill sizing" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name">
+          <button class="mdi mdi-delete btn btn-outline-danger mx-2" title="Delete keep" v-if="activeKeep.creator?.id == account.id"></button>
+          <img class="rounded-pill sizing mx-2" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name">
+          <p class="m-0">{{activeKeep.creator?.name}}</p>
+
+            </div>
+              
+
           </div>
           </div>
         </div>

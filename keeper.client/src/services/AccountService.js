@@ -16,6 +16,7 @@ class AccountService {
     logger.log('Get my vaults', res.data)
     AppState.myVaults = res.data
   }
+  
 }
 
 export const accountService = new AccountService()

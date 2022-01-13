@@ -1,6 +1,6 @@
 <template>
 <div class="modal" tabindex="-1">
-    <div class="modal-dialog">
+    <div :class="size" class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
           <slot name="modal-body"></slot>
@@ -15,6 +15,12 @@
 
 export default {
   
+  props: {
+    size: {
+      type: String,
+      default: 'modal-dialog'
+    }
+  },
   setup() {
     return {
     }
