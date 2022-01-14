@@ -7,7 +7,7 @@
           
         <h5 class="d-flex align-items-center justify-content-between mx-2 text-white shadow" title="Keep name">{{keep.name}}
         </h5>
-        <img :src="keep.creator.picture" alt="" class="w-25 rounded-pill action" :title="keep.creator?.name" @click="routerLink">
+        <img :src="keep.creator.picture" alt="" class="w-25 rounded-pill action mb-2" :title="keep.creator?.name" @click="routerLink">
         </span>
       </div>
     <!-- </div> -->
@@ -46,6 +46,7 @@ export default {
           Pop.toast(error, 'error')
         }
       },
+      
       keeps: computed(()=> AppState.keeps),
       myKeeps: computed(()=> AppState.myKeeps)
     }

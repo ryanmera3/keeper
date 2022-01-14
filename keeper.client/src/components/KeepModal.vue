@@ -1,5 +1,5 @@
 <template>
-  <Modal id="keep-modal" size="modal-lg">
+  <Modal id="keep-modal" size="modal-xl">
     <template #modal-body>
       <div class="container-fluid">
         <div class="text-end">
@@ -42,7 +42,7 @@
             <div class="row">
 
               <div class="col-md-12 d-flex align-items-center">
-          <button id="dropwdown" class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" >
+          <button id="dropwdown" class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" v-if="route.name == 'Home'">
             Add to Vault
           </button>
           <ul class="dropdown-menu scrollable">
@@ -52,7 +52,6 @@
           </ul>
           
           <button class="mdi mdi-delete btn btn-outline-danger mx-2" title="Delete keep" v-if="activeKeep.creator?.id == account.id" @click="deleteKeep(activeKeep.id)"></button>
-          <button class="btn mdi mdi-delete btn-outline-danger" @click="deleteVaultKeep"></button>
           <img class="rounded-pill sizing mx-2 action" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name" @click="routerlink">
           <p class="m-0">{{activeKeep.creator?.name}}</p>
 
@@ -83,10 +82,12 @@ export default {
     const route = useRoute()
     const router = useRouter()
     return {
+      route,
+      router,
         routerLink() {
         router.push({
           name: "Profile",
-          params: { id: activeKeep.creator?.idd }
+          params: { id: activeKeep.creator?.id }
         })
           Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
       },
@@ -99,15 +100,7 @@ export default {
           logger.log(error)
         }
       },
-      async deleteVaultKeep(vaultKeepId){
-        try {
-          await vaultKeepService.deleteVaultKeep(vaultKeepId)
-          Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
-          Pop.toast('Vault keep was deleted', 'success')
-        } catch (error) {
-          logger.log(error)
-        }
-      },
+      
       async deleteKeep(id){
         try {
           if(await Pop.confirm()){

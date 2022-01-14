@@ -5,7 +5,7 @@
         <h1 class="d-flex justify-content-between">
           {{vault.name}}
           <div >
-            <button class="btn btn-outline-danger" v-if="vault.creatorId == account.id" @click="deleteVault(vault.id)">Delete Vault</button>
+            <button class="btn btn-outline-danger" v-if="vault.creatorId == account.id" @click.stop="deleteVault(vault.id)">Delete Vault</button>
           </div>
           </h1>
           <h5>
@@ -14,10 +14,11 @@
       </div>
       <div class="col-md-12 d-flex  mt-2">
         <div class="row">
-          <div class="col-md-2" style="width:18rem" v-for=" k in keeps" :key="k.id">
+          <div class="col-md-2" style="width:18rem" v-for=" k in vaultKeeps" :key="k.id">
             <div class="card m-2 bg-dark sizing action" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive(k)">
-              <div class="card-body d-flex align-items-end" v-bind:style="{ backgroundImage: `url(${k.img})` }">
+              <div class="card-body d-flex align-items-end justify-content-between " v-bind:style="{ backgroundImage: `url(${k.img})` }">
                 {{k.name}}
+              <button class="btn btn-outline-danger mdi mdi-delete " title="Remove keep from vault" @click.stop="deleteVaultKeep(k.vaultKeepId)"></button>
                 </div>
             </div>
           </div>
@@ -28,7 +29,7 @@
 </template>
 
 <script>
-import { computed, onBeforeMount, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { accountService } from "../services/AccountService"
 import { vaultService } from "../services/VaultService"
@@ -37,6 +38,7 @@ import { logger } from "../utils/Logger"
 import { Modal } from "bootstrap"
 import Pop from "../utils/Pop"
 import { keepService } from "../services/KeepService"
+import { vaultKeepService } from "../services/VaultKeepService"
 export default {
   name: 'VaultPage',
   setup() {
@@ -57,6 +59,10 @@ export default {
     return {
       route,
       router,
+        vault: computed(() => AppState.vault),
+        keeps: computed(()=> AppState.keeps),
+        account: computed(()=> AppState.account),
+        vaultKeeps: computed(()=> AppState.vaultKeeps),
       async deleteVault(id){
         try {
           if(await Pop.confirm()){
@@ -82,9 +88,17 @@ export default {
           Pop.toast(error, 'error')
         }
       },
-      vault: computed(() => AppState.vault),
-      keeps: computed(()=> AppState.keeps),
-      account: computed(()=> AppState.account)
+      async deleteVaultKeep(vaultKeepId){
+        try {
+          if(await Pop.confirm()){
+          await vaultKeepService.deleteVaultKeep(vaultKeepId)
+          Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+          Pop.toast('Vault keep was deleted', 'success')
+          }
+        } catch (error) {
+          logger.log(error)
+        }
+      }
     }
   }
 }
