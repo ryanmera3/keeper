@@ -116,13 +116,8 @@ export default {
       activeKeep: computed(()=> AppState.activeKeep),
       account: computed(()=> AppState.account),
       myVaults: computed(()=> AppState.myVaults),
-      vaultKeeps: computed(()=> AppState.vaultKeeps),
-      isVaultPage: computed(()=>  {
-        route.name == "Vault"
-      }),
-      isHomePage: computed(()=> {
-        route.path === "Home" ? true : false
-      })
+      vaultKeeps: computed(()=> AppState.vaultKeeps)
+
     }
   }
 }

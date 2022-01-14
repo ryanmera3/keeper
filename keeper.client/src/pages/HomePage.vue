@@ -1,5 +1,5 @@
 <template>
-  <div class=" flex-grow-1 d-flex flex-column align-items-center justify-content-center container-fluid">
+  <div class=" flex-grow-1 d-flex flex-column align-items-center justify-content-center container-fluid mt-3">
     <div class="masonry-with-columns">
       <Keeps v-for="k in keeps" :key="k.id" :keep="k" />
     </div>
