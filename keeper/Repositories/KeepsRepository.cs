@@ -32,12 +32,16 @@ namespace keeper.Repositories
     public Keep GetById(int id)
     {
       string sql = @"
+        UPDATE keeps k
+        SET views = views + 1
+        WHERE k.id = @id;
         SELECT 
             ks.*,
             a.*
         FROM keeps ks
         JOIN accounts a ON ks.creatorId = a.id
         WHERE ks.id = @id;
+
       ";
       return _db.Query<Keep, Profile, Keep>(sql, (keep, prof) =>
      {

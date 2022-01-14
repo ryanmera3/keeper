@@ -42,11 +42,18 @@
             <div class="row">
 
               <div class="col-md-12 d-flex align-items-center">
-          <button class="btn btn-outline-success">
+          <button id="dropwdown" class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" >
             Add to Vault
           </button>
+          <ul class="dropdown-menu scrollable">
+            <li class="action" v-for="v in myVaults" :key="v.id" @click="createVaultKeep(v.id)">
+              <h6>{{v.name}}</h6>
+            </li>
+          </ul>
+          
           <button class="mdi mdi-delete btn btn-outline-danger mx-2" title="Delete keep" v-if="activeKeep.creator?.id == account.id" @click="deleteKeep(activeKeep.id)"></button>
-          <img class="rounded-pill sizing mx-2" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name">
+          <button class="btn mdi mdi-delete btn-outline-danger" @click="deleteVaultKeep"></button>
+          <img class="rounded-pill sizing mx-2 action" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name" @click="routerlink">
           <p class="m-0">{{activeKeep.creator?.name}}</p>
 
             </div>
@@ -68,9 +75,39 @@ import { logger } from "../utils/Logger"
 import { keepService } from "../services/KeepService"
 import { Modal } from "bootstrap"
 import Pop from "../utils/Pop"
+import { router } from "../router"
+import { useRoute, useRouter } from "vue-router"
+import { vaultKeepService } from "../services/VaultKeepService"
 export default {
   setup() {
+    const route = useRoute()
+    const router = useRouter()
     return {
+        routerLink() {
+        router.push({
+          name: "Profile",
+          params: { id: activeKeep.creator?.idd }
+        })
+          Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+      },
+      async createVaultKeep(vaultId){
+        try {
+          await vaultKeepService.createVaultKeep(vaultId, this.activeKeep.id)
+          Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+          Pop.toast('Keep added to vault', 'success')
+        } catch (error) {
+          logger.log(error)
+        }
+      },
+      async deleteVaultKeep(vaultKeepId){
+        try {
+          await vaultKeepService.deleteVaultKeep(vaultKeepId)
+          Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+          Pop.toast('Vault keep was deleted', 'success')
+        } catch (error) {
+          logger.log(error)
+        }
+      },
       async deleteKeep(id){
         try {
           if(await Pop.confirm()){
@@ -84,7 +121,15 @@ export default {
         }
       },
       activeKeep: computed(()=> AppState.activeKeep),
-      account: computed(()=> AppState.account)
+      account: computed(()=> AppState.account),
+      myVaults: computed(()=> AppState.myVaults),
+      vaultKeeps: computed(()=> AppState.vaultKeeps),
+      isVaultPage: computed(()=>  {
+        route.name == "Vault"
+      }),
+      isHomePage: computed(()=> {
+        route.path === "Home" ? true : false
+      })
     }
   }
 }
@@ -94,5 +139,10 @@ export default {
 <style lang="scss" scoped>
 .sizing {
   height: 50px;
+}
+
+.dropdown-menu {
+    max-height: 280px;
+    overflow-y: auto;
 }
 </style>

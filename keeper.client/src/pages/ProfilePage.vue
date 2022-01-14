@@ -4,12 +4,12 @@
       <div class="col-md-12 my-4" style="height:15rem">
         <div class="row ms-2">
           <div class="col-md-1">
-            <img :src="user.picture" alt="">
+            <img :src="profile.picture" alt="">
           </div>
           <div class="col-md-11 d-flex flex-column">
             <div class="row ">
               <div class="col-md-12">
-                {{user.name}}
+                {{profile.name}}
               </div>
             </div>
             <div class="row my-3">
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="col-md-12 my-2 ms-2">
-        Vaults <button class="btn btn-outline-primary mdi mdi-plus" title="create vault" data-bs-toggle="modal" data-bs-target="#createVault-modal"></button>
+        Vaults <button class="btn btn-outline-primary mdi mdi-plus" title="create vault" data-bs-toggle="modal" data-bs-target="#createVault-modal" v-if="account.id == route.params.id"></button>
       </div>
       <div class="col-md-12 d-flex" >
         <div class="row">
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="col-md-12 my-2 ms-2">
-        Keeps <button class="btn btn-outline-primary mdi mdi-plus" title="create keep" data-bs-toggle="modal" data-bs-target="#createKeep-modal"></button>
+        Keeps <button class="btn btn-outline-primary mdi mdi-plus" title="create keep" data-bs-toggle="modal" data-bs-target="#createKeep-modal" v-if="account.id == route.params.id"></button>
       </div>
       <div class="col-md-12 d-flex">
         <div class="row">
@@ -68,15 +68,17 @@ import { keepService } from "../services/KeepService"
 import { logger } from "../utils/Logger"
 import { Modal } from "bootstrap"
 import Pop from "../utils/Pop"
+import { accountService } from "../services/AccountService"
 export default {
   name: 'ProfilePage',
   setup(){
     const route = useRoute()
     const router = useRouter()
     onMounted(async() => {
-      await profileService.getUserProfile(route.params.id)
-      await profileService.getVaultsByProfileId(route.params.id),
-      await profileService.getKeepsByProfileId(route.params.id)
+        await profileService.getUserProfile(route.params.id)
+        await profileService.getVaultsByProfileId(route.params.id),
+        await profileService.getKeepsByProfileId(route.params.id)
+        await accountService.getAccount()
     })
 
     return{
@@ -103,7 +105,8 @@ export default {
       vaults: computed(()=> AppState.vaults),
       profileVaults: computed(() => AppState.profileVaults),
       profileKeeps: computed(()=> AppState.profileKeeps),
-      user: computed(()=> AppState.user)
+      profile: computed(()=> AppState.profile),
+      account: computed(()=> AppState.account)
     }
   }
 }

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onBeforeMount, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { accountService } from "../services/AccountService"
 import { vaultService } from "../services/VaultService"
@@ -40,11 +40,19 @@ import { keepService } from "../services/KeepService"
 export default {
   name: 'VaultPage',
   setup() {
+
       const route = useRoute()
       const router = useRouter()
       onMounted(async ()=>{
-        await vaultService.getVaultById(route.params.id)
-        await vaultService.getKeepsByVaultId(route.params.id)
+        try {
+          await vaultService.getVaultById(route.params.id)
+          await vaultService.getKeepsByVaultId(route.params.id)
+          
+        } catch (error) {
+          router.push({
+          name: "Home"
+        })
+        }
       })
     return {
       route,

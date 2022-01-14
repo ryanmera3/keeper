@@ -1,7 +1,7 @@
 <template>
   <div class=" flex-grow-1 d-flex flex-column align-items-center justify-content-center container-fluid">
-    <div class="row ">
-      <Keeps v-for="k in keeps" :key="k.id" :keep="k" class="masonry-with-flex"/>
+    <div class="masonry-with-columns">
+      <Keeps v-for="k in keeps" :key="k.id" :keep="k" />
     </div>
   </div>
 </template>
@@ -58,28 +58,22 @@ body {
   padding: 1rem;
 }
 
-.masonry-with-flex {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  max-height: 1000px;
+.masonry-with-columns {
+  columns: 6 200px;
+  column-gap: 1rem;
   div {
     width: 150px;
     background: #EC985A;
     color: white;
     margin: 0 1rem 1rem 0;
+    display: inline-block;
+    width: 100%;
     text-align: center;
     font-family: system-ui;
     font-weight: 900;
     font-size: 2rem;
   } 
-  @for $i from 1 through 36 { 
-    div:nth-child(#{$i}) {
-      $h: (random(400) + 100) + px;
-      height: $h;
-      line-height: $h;
-    }
-  }
+
 }
 
 

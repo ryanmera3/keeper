@@ -1,13 +1,16 @@
 <template>
-  <div class="col-md-3 d-flex m-0 pt-3 mb-3">
-    <div class="card sizing action" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive">
-      <div class="card-body contain d-flex flex-column justify-content-end rounded" v-bind:style="{ backgroundImage: `url(${keep.img})` }">
-        <h5 class="d-flex align-items-center justify-content-between mx-2 text-white darken-2 " title="Keep name">{{keep.name}}
-
-        <img :src="keep.creator.picture" alt="" class="w-25 rounded-pill" :title="keep.creator?.name" @click="routerLink">
+  <div >
+    <div class="card action d-flex justify-content-end" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive">
+      <!-- <div class="card-body contain d-flex flex-column justify-content-end rounded" v-bind:style="{ backgroundImage: `url(${keep.img})` }"> -->
+        <img :src="keep.img" alt="" class="img-fluid">
+        <span class="position-absolute d-flex justify-content-between">
+          
+        <h5 class="d-flex align-items-center justify-content-between mx-2 text-white shadow" title="Keep name">{{keep.name}}
         </h5>
+        <img :src="keep.creator.picture" alt="" class="w-25 rounded-pill action" :title="keep.creator?.name" @click="routerLink">
+        </span>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 
 </template>
@@ -53,10 +56,13 @@ export default {
 <style scoped lang="scss">
 
 .sizing{
-  height:250px;
+  min-height:250px;
 }
 .contain{
   object-fit: contain;
+}
+.shadow{
+  text-shadow: 2px 2px #000000;
 }
 
 </style>

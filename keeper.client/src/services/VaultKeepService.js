@@ -4,7 +4,7 @@ import { api } from "./AxiosService"
 
 class VaultKeepService {
   async createVaultKeep(vaultId, keepId){
-    const res = await api.post(`/api/vaultkeeps`, {body: vaultId, keepId})
+    const res = await api.post(`/api/vaultkeeps`, { vaultId: vaultId, keepId: keepId})
     logger.log('Create vault keep', res.data)
     AppState.vaultKeeps = res.data
   }
