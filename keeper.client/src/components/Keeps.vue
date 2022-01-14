@@ -3,7 +3,7 @@
     <div class="card action d-flex justify-content-end" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive">
       <!-- <div class="card-body contain d-flex flex-column justify-content-end rounded" v-bind:style="{ backgroundImage: `url(${keep.img})` }"> -->
         <img :src="keep.img" alt="" class="img-fluid">
-        <span class="position-absolute d-flex justify-content-between">
+        <span class="position-absolute d-flex justify-content-between w-100 p-2">
           
         <h5 class="d-flex align-items-center justify-content-between mx-2 text-white shadow" title="Keep name">{{keep.name}}
         </h5>
@@ -63,7 +63,7 @@ export default {
   object-fit: contain;
 }
 .shadow{
-  text-shadow: 2px 2px #000000;
+  text-shadow: 1.5px 1.5px #000000;
 }
 
 </style>

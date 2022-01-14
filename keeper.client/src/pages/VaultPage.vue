@@ -18,7 +18,7 @@
             <div class="card m-2 bg-dark sizing action" data-bs-toggle="modal" data-bs-target="#keep-modal" @click.stop="setActive(k)">
               <div class="card-body d-flex align-items-end justify-content-between " v-bind:style="{ backgroundImage: `url(${k.img})` }">
                 {{k.name}}
-              <button class="btn btn-outline-danger mdi mdi-delete " title="Remove keep from vault" @click.stop="deleteVaultKeep(k.vaultKeepId)"></button>
+              <button class="btn btn-outline-danger mdi mdi-delete " title="Remove keep from vault" @click.stop="deleteVaultKeep(k.vaultKeepId)" v-if="vault.creatorId == account.id"></button>
                 </div>
             </div>
           </div>

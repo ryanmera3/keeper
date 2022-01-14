@@ -52,7 +52,7 @@
           </ul>
           
           <button class="mdi mdi-delete btn btn-outline-danger mx-2" title="Delete keep" v-if="activeKeep.creator?.id == account.id" @click="deleteKeep(activeKeep.id)"></button>
-          <img class="rounded-pill sizing mx-2 action" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name" @click="routerlink">
+          <img class="rounded-pill sizing mx-2" :src="activeKeep.creator?.picture" alt="" :title="activeKeep.creator?.name" @click="routerlink">
           <p class="m-0">{{activeKeep.creator?.name}}</p>
 
             </div>
