@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [vue()],
   build: {
-    outDir: 'https://ryanmkeeper.herokuapp.com/wwwroot',
+    outDir: '../keeper/wwwroot',
     sourcemap: false
   },
   server: {
