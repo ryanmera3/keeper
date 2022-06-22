@@ -8,7 +8,7 @@
         
         <div class="row">
           <div class="col-md-2" style="width:18rem"  v-for="v in myVaults" :key="v.id"> 
-            <div class="card m-2 sizing bg-dark action" title="Click to open vault" @click="routerLink(v.id)">
+            <div class="card m-2 sizing bg-dark action vault-bg " title="Click to open vault" @click="routerLink(v.id)">
               <div class="card-body d-flex align-items-end justify-content-between">
                 {{v.name}}
               <i class="mdi mdi-star text-success" title="This is a private vault" v-if="v.isPrivate"></i>
@@ -57,4 +57,8 @@ img {
 .sizing {
   height: 200px;
 }
+
+  .vault-bg {
+    background: url(../assets/img/photo-1582139329536-e7284fece509.avif);
+  }
 </style>
